@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
     console.log('User before remove', getUser(socket.id));
 
     const user = removeUser(socket.id);
-    console.log(`User: ${JSON.stringify(user)} disconnected`);
+    // console.log(`User: ${JSON.stringify(user)} disconnected`);
 
     socket.emit('logout', 'Hi');
   })
