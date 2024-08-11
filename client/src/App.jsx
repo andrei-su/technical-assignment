@@ -10,15 +10,13 @@ import SignUp from "./pages/SignUp";
 import SocketProvider from "./context/SocketContext";
 import Protected from "./pages/Protected";
 
-const localState = JSON.parse(localStorage.state || null);
-
 const router = createBrowserRouter([
   {
     path: "/",
     element: <SignUp />,
   },
   {
-    element: <Protected isUser={localState?.user?.name !== ''} />,
+    element: <Protected />,
     children: [
       {
         path: "/home",

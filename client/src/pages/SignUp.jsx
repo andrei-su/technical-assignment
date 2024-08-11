@@ -1,20 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Form } from 'react-router-dom';
 import { useDispatch } from '../hooks/useDispatch';
-import { useSocketContext } from '../hooks/useSocketContext';
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
 import '../App.css'
-// import { useSocketDotIO } from '../hooks/useSocket.io';
 
 function SignUp() {
-  const [name, setName] = useState('');
   const dispatch = useDispatch();
-  const socket = useSocketContext();
+  const [name, setName] = useState('');
 
-  useEffect(() => {
-    dispatch({ type: 'logout' })
-  }, [dispatch]);
+  const handleSubmit = (e) => {
+    if (name === '') {
+      e.preventDefault();
+      alert('Username is required.')
+    } else {
+      dispatch({
+        type: 'signup',
+        userName: name ,
+      })
+    }
+  };
 
   return (
     <>
@@ -39,20 +44,9 @@ function SignUp() {
           onChange={(e) => setName(e.target.value)}
         />
         <Form
-          action="/home"
-          onSubmit={() => {
-            // setName('');
-            dispatch({
-              type: 'signup',
-              userName: name ,
-            })
-            console.log("hello signup");
-            socket?.emit('signup', name, (error) => {
-              if(error) {
-                alert(error);
-              }
-            });
-          }}
+          replace
+          action='/home'
+          onSubmit={(e) => handleSubmit(e)}
         >
           <button type="submit">Next</button>
         </Form>

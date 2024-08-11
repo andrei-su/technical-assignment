@@ -22,15 +22,16 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 
 io.on('connection', (socket) => {
-  console.log(`A user connected with the id: ${socket.id}`);
+  console.log(`User Connected: ${socket.id}`);
 
   socket.on('signup', (userName, callback) => {
     const { error, user } = addUser({ id: socket.id, name: userName });
 
     if(error) return callback(error);
 
-    console.log('User: ' + JSON.stringify(user) + ' signed up');
+    console.log('User: ', user, ' Signed UP');
 
+    callback();
   });
 
   socket.on('startConversation', (userName, callback) => {
@@ -40,17 +41,17 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMessage', (message, callback) => {
-    console.log('this is the sendMessage', message);
-    socket.emit('receiveMessage', `${socket.id} said ${message}`);
+    console.log('sendMessage: ', message);
+    socket.broadcast.emit('receiveMessage', message);
+    // socket.emit('receiveMessage', `${getUser(socket.id).name} said ${message}`);
     callback();
   });
 
   socket.on('disconnect', () => {
-    console.log('socket id on disconnect', socket.id);
-    console.log('User before remove', getUser(socket.id));
+    console.log('Disconnect Socket ID', socket.id);
 
     const user = removeUser(socket.id);
-    // console.log(`User: ${JSON.stringify(user)} disconnected`);
+    console.log('User: ', user, 'Disconnected');
 
     socket.emit('logout', 'Hi');
   })

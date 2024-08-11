@@ -23,12 +23,7 @@ function globalReducer(state, action) {
       }
     }
     case 'logout': {
-      return {
-        ...state,
-        user: {
-          name: '',
-        }
-      }
+      return initialState;
     }
     case 'createConversation': {
       const conversation = { id: action.conversation.id, messages: [] }
@@ -41,7 +36,6 @@ function globalReducer(state, action) {
     case 'addMessageInConversation': {
       const conversations = [...state.conversations];
       const conversationIndex = conversations.findIndex(conversation => conversation.id === action.conversation.id);
-      console.log("Conversation index", conversationIndex);
       if (conversationIndex !== -1) {
         conversations[conversationIndex].messages.push(action.conversation.message);
       }

@@ -4,8 +4,8 @@ const addUser = ({ id, name }) => {
   name = name.trim().toLowerCase();
 
   // Only in development mode | remove in production
-  const existingUser = users.find((user) => user.name === name && user.id !== id);
-  // const existingUser = users.find((user) => user.name === name);
+  // const existingUser = users.find((user) => user.name === name && user.id !== id);
+  const existingUser = users.find((user) => user.name === name);
 
   if(!name) return { error: 'Username is required.' };
   if(existingUser) return { error: 'Username is taken.' };
